@@ -7,7 +7,7 @@ import { Mail, ArrowRight, Loader2, KeyRound, RefreshCcw, ShieldAlert } from "lu
 export default function AuthForm({ onLoginSuccess }) {
   const [step, setStep] = useState(1);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [email, setEmail] = useState("doctor@medai.com");
+  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   
   const [loading, setLoading] = useState(false);
@@ -110,17 +110,18 @@ export default function AuthForm({ onLoginSuccess }) {
         <form onSubmit={handleSendOTP} className="space-y-6 animate-fade-in relative">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/40 ml-2">
-              {isLoginMode ? "Secure Authentication Access" : "Clinical ID Provisioning"}
+              Email
             </label>
             <div className="relative group">
               <Mail className="absolute left-5 top-5 text-on-surface-variant/30 group-focus-within:text-primary transition-colors" size={20} />
               <input 
                 type="email" 
-                placeholder="doctor@medai.com" 
+                placeholder="Enter your email" 
                 className="w-full bg-surface-container-lowest border border-outline-variant/50 rounded-3xl py-5 pl-14 pr-6 text-on-surface focus:outline-none focus:border-primary/50 transition-all placeholder:text-outline/40 font-medium shadow-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoFocus
+                required
               />
             </div>
           </div>
@@ -131,7 +132,7 @@ export default function AuthForm({ onLoginSuccess }) {
             className="w-full primary-gradient text-white py-5 rounded-[24px] font-bold text-lg flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-primary/30"
            >
             {loading ? <Loader2 className="animate-spin" /> : <>
-               {isLoginMode ? "Access Sanctuary" : "Initialize New Sanctuary"} <ArrowRight size={20}/>
+               {isLoginMode ? "Continue" : "Initialize New Sanctuary"} <ArrowRight size={20}/>
             </>}
           </button>
 

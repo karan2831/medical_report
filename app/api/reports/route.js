@@ -1,20 +1,35 @@
-import { createClient } from '@supabase/supabase-js';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from "next/headers";
 import { NextResponse } from 'next/server';
 import { logClinicalAction } from '@/lib/audit';
 
 export async function GET(request) {
   try {
-    const supabase = createClient(
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll()
+          },
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) => {
+                cookieStore.set(name, value, options)
+              })
+            } catch (error) {}
+          },
+        },
+      }
     );
 
-    // 1. Get session user - Phase 8 Strict Enforcement
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      request.headers.get('Authorization')?.split(' ')[1]
-    );
+    // 1. Get session user securely from server-side cookies
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
+      console.error("Auth Error in Reports Route:", authError);
       return NextResponse.json({ error: 'Unauthorized Access: Clinical Session Required.' }, { status: 401 });
     }
 

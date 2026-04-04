@@ -1,4 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from "next/headers";
 import { NextResponse } from 'next/server';
 import { extractInsights, generateEmbedding } from '@/lib/openai';
 import { logClinicalAction } from '@/lib/audit';
@@ -12,18 +13,32 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    const supabase = createClient(
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll()
+          },
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) => {
+                cookieStore.set(name, value, options)
+              })
+            } catch (error) {}
+          },
+        },
+      }
     );
 
-    // Get session user - Strict Enforcement for Phase 8
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      request.headers.get('Authorization')?.split(' ')[1]
-    );
+    // Get session user securely from server-side cookies
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized: Clinical session required.' }, { status: 401 });
+      console.error("Auth error in upload API:", authError);
+      return NextResponse.json({ error: 'Unauthorized Access: Clinical Session Required' }, { status: 401 });
     }
 
     const userId = user.id;

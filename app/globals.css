@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* 
+  Clinical Ethereal - Design System Tokens 
+  Tailwind 4 Theme Configuration
+*/
+@theme {
+  /* Brand Colors */
+  --color-primary: #004ac6;
+  --color-primary-container: #2563eb;
+  --color-on-primary: #ffffff;
+  --color-secondary: #495c95;
+  --color-secondary-container: #acbfff;
+  --color-on-secondary: #ffffff;
+
+  /* Surface System */
+  --color-background: #f8f9ff;
+  --color-surface: #f8f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e6eeff;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-highest: #d5e3fc;
+
+  /* Text */
+  --color-on-surface: #0d1c2e;
+  --color-on-surface-variant: #434655;
+  --color-outline: #737686;
+  --color-outline-variant: #c3c6d7;
+
+  /* Border Radius */
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-spin: spin 1s linear infinite;
+
+  /* Typography — map Next.js font CSS variables */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-manrope: var(--font-manrope), "Manrope", ui-sans-serif, sans-serif;
+  --font-inter: var(--font-inter), "Inter", ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    transition-property: color, background-color;
+    transition-duration: 300ms;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, .font-manrope {
+    font-family: var(--font-manrope, "Manrope"), ui-sans-serif, sans-serif;
+  }
+}
+
+@layer components {
+  /* Gradient Button / Background */
+  .primary-gradient {
+    background-image: linear-gradient(135deg, #004ac6, #2563eb);
+  }
+
+  /* Tonal boundary — no-line philosophy */
+  .tonal-boundary {
+    background-color: var(--color-surface-container-low);
+  }
+
+  /* Glass nav bar */
+  .glass-nav {
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  /* Legacy dark glass card — kept for backward compat but redirected to light */
+  .glass-card {
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid rgba(195, 198, 215, 0.3);
+    border-radius: 1.5rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #c3c6d7;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+/* Keyframes */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Print styles — hide navigation chrome */
+@media print {
+  .no-print { display: none !important; }
+}

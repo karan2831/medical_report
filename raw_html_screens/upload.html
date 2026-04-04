@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Upload | MedAI Digital Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f8f9ff",
+                        "inverse-surface": "#233144",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#31447b",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-primary-container": "#eeefff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container": "#e6eeff",
+                        "on-tertiary-container": "#ffede6",
+                        "error": "#ba1a1a",
+                        "secondary": "#495c95",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "primary": "#004ac6",
+                        "on-surface": "#0d1c2e",
+                        "on-surface-variant": "#434655",
+                        "surface-container-highest": "#d5e3fc",
+                        "on-background": "#0d1c2e",
+                        "surface-variant": "#d5e3fc",
+                        "background": "#f8f9ff",
+                        "tertiary-container": "#bc4800",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#0053db",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed": "#00174b",
+                        "on-secondary-container": "#394c84",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#acbfff",
+                        "surface-dim": "#ccdbf3",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-primary-fixed": "#00174b",
+                        "primary-container": "#2563eb",
+                        "outline": "#737686",
+                        "tertiary": "#943700",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<nav class="fixed top-0 w-full z-50 glass-nav shadow-[0_24px_48px_-12px_rgba(13,28,46,0.08)] flex justify-between items-center px-8 h-20 w-full">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black tracking-tight text-blue-700 dark:text-blue-400 font-headline">MedAI</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 font-medium hover:bg-blue-50/50 transition-all px-4 py-2 rounded-xl" href="#">Dashboard</a>
+<a class="text-blue-700 font-bold border-b-2 border-blue-700 px-4 py-2 transition-all" href="#">Upload</a>
+<a class="text-slate-500 font-medium hover:bg-blue-50/50 transition-all px-4 py-2 rounded-xl" href="#">Compare</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container-low border-none rounded-xl py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search clinical records..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+</div>
+<button class="p-2 text-slate-500 hover:bg-blue-50/50 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/10">
+<img alt="Dr. Smith's Profile" data-alt="professional portrait of a male doctor in clinical setting with soft natural lighting and medical environment background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV24iv3WaQq_8FJGPqePWEBKps7PXIz2f2t-T6yAZdNVB03SsgQv15h6rZ9GXHrey7he309LAn5dyjJ4kHpPgqX3IoUFPIf9EAmogAt0K_Rr9sAaPms1L82uXoqjmGX5VxOh0MfYAYiGZVoQIRwOoHHis56-aHHV3gn15UmopAmmwUAufHEs4Yyvml7RbefjBwGM7sxBzDR43VWVkD8_H4SzBA8cHmJU3lJSnaUAEFgJt6AasQYqFYwkBBAxwmN5qFWhZ_SIXY1H5j"/>
+</div>
+</div>
+</nav>
+<div class="flex pt-20 min-h-screen">
+<aside class="hidden md:flex flex-col p-6 gap-y-4 h-[calc(100vh-5rem)] w-64 bg-surface-container sticky top-20">
+<div class="mb-8">
+<h2 class="font-headline font-bold text-xl text-blue-700 px-4">Clinical Portal</h2>
+<p class="text-xs text-on-surface-variant px-4">Digital Sanctuary</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-blue-50 transition-colors duration-200 rounded-2xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white text-blue-700 rounded-2xl shadow-sm font-semibold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">cloud_upload</span>
+<span class="font-medium">Upload</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-blue-50 transition-colors duration-200 rounded-2xl" href="#">
+<span class="material-symbols-outlined">compare_arrows</span>
+<span class="font-medium">Compare</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-blue-50 transition-colors duration-200 rounded-2xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-blue-100/30">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-blue-700 transition-all rounded-2xl" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-red-500 transition-all rounded-2xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Log Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 p-8 lg:p-12 bg-surface">
+<header class="max-w-5xl mx-auto mb-12">
+<h1 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-2">Ingest Clinical Assets</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl">Upload patient scans, PDF reports, or laboratory results for instant AI-driven diagnostic assistance.</p>
+</header>
+<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<section class="lg:col-span-7 space-y-8">
+<div class="bg-surface-container-lowest p-10 rounded-2xl border-2 border-dashed border-outline-variant/30 hover:border-primary/40 transition-all group flex flex-col items-center justify-center text-center cursor-pointer min-h-[400px]">
+<div class="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-primary text-4xl">cloud_upload</span>
+</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-2">Drop Clinical Files Here</h3>
+<p class="text-on-surface-variant max-w-sm mb-8">Support for DICOM images, MRI scans, and multi-page PDF medical histories (Max 150MB).</p>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">add</span>
+                            Browse Local Storage
+                        </button>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl flex items-center gap-6">
+<div class="h-12 w-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-blue-600">picture_as_pdf</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-2">
+<span class="font-semibold text-on-surface">Patient_History_Ref_9902.pdf</span>
+<span class="text-sm font-bold text-primary">84%</span>
+</div>
+<div class="h-2 w-full bg-white rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 84%"></div>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</section>
+<aside class="lg:col-span-5 space-y-6 sticky top-28">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_24px_48px_-12px_rgba(13,28,46,0.08)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline font-bold text-lg text-on-surface">Upload Preview</h4>
+<span class="px-3 py-1 bg-tertiary-fixed-dim/20 text-tertiary-fixed-dim text-[10px] font-bold uppercase tracking-widest rounded-full">Pending Analysis</span>
+</div>
+<div class="rounded-xl overflow-hidden mb-6 relative group">
+<img alt="X-ray sample preview" class="w-full h-48 object-cover grayscale opacity-90 transition-all group-hover:grayscale-0 group-hover:scale-105" data-alt="clean medical x-ray of a human chest cavity displayed on a high-resolution professional diagnostic monitor with subtle blue reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZUweMHtURk8U1dzl-lUFOyQVLiXPmQL5p8i9EfqE4sN6A-2c0WojJCHFNx6ikfmUa_UH3S4uUqOb5IXPXk_zFKPfZhTjof0pqif-mLXSMxpQljjou82W7xe7OkDIR14J6b_SjocXKZEDkY2SMKtrYDQ4zsgfjY_iGgArDURt_d5hnf_PkrW03drdu6hKv6n79_UeduA5_bAIAbOfPZLcSISpJEzkJrTiTMDvhuKoVc2x6Fg6k0-nrHeLpbiUWCUBKva_m9JOEWUss"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex items-end p-4">
+<p class="text-white text-xs font-medium">Chest_Xray_Diagnostic_V1.jpg</p>
+</div>
+</div>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Type</span>
+<span class="text-on-surface font-semibold">Diagnostic Imaging</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Resolution</span>
+<span class="text-on-surface font-semibold">2400 x 3200 px</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Source</span>
+<span class="text-on-surface font-semibold">General Radiology Dept.</span>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined">psychology</span>
+                            Analyze with MedAI
+                        </button>
+</div>
+<div class="bg-surface-container-high/50 p-6 rounded-2xl border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<span class="font-headline font-bold text-on-surface">Privacy Guaranteed</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Your data is encrypted end-to-end and HIPAA compliant. MedAI never uses patient identity for model training without explicit institutional consent.</p>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<footer class="w-full border-t border-slate-100 dark:border-slate-800 bg-white py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-bold text-blue-700 text-lg font-headline">MedAI</span>
+<p class="text-xs font-medium text-slate-400 font-body">© 2024 MedAI Digital Sanctuary. For professional use only.</p>
+</div>
+<div class="flex gap-8 flex-wrap justify-center">
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-all" href="#">Privacy Policy</a>
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-all" href="#">Terms of Service</a>
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-all" href="#">Clinical Guidelines</a>
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-all" href="#">HIPAA Compliance</a>
+</div>
+</footer>
+</body></html>

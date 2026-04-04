@@ -2,32 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  UploadCloud, 
-  SearchCode, 
-  ArrowLeftRight, 
-  Settings, 
-  LogOut, 
-  ShieldCheck,
-  Stethoscope,
-  Menu,
-  X,
-  AlertCircle,
-  FlaskConical,
-  Archive
-} from "lucide-react";
 import { useState } from "react";
 import { logout } from "@/lib/auth";
 
 const navItems = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Upload Report", href: "/upload", icon: UploadCloud },
-  { name: "Lab Analyzer", href: "/lab", icon: FlaskConical },
-  { name: "AI Insights", href: "/insights", icon: SearchCode },
-  { name: "Compare Diagnoses", href: "/compare", icon: ArrowLeftRight },
-  { name: "Archives", href: "/reports", icon: Archive },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "Dashboard", href: "/", icon: "dashboard" },
+  { name: "Upload", href: "/upload", icon: "cloud_upload" },
+  { name: "Lab Analyzer", href: "/lab", icon: "science" }, // Using science or similar if exact matches vary
+  { name: "Compare", href: "/compare", icon: "compare_arrows" },
+  { name: "Settings", href: "/settings", icon: "settings" },
 ];
 
 export default function Sidebar() {
@@ -36,63 +19,64 @@ export default function Sidebar() {
 
   const sidebarContent = (
     <>
-      <div className="p-8 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 primary-gradient rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-            <Stethoscope className="text-white" size={24} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tighter text-on-surface">MedAI</h1>
-            <p className="text-primary/60 font-bold text-[10px] uppercase tracking-[0.3em] leading-none">Clinical Sanctuary</p>
-          </div>
+      <div className="mb-8 px-2 flex justify-between items-start">
+        <div>
+          <h1 className="text-xl font-bold text-blue-700 tracking-tight">Clinical Portal</h1>
+          <p className="text-xs text-on-surface-variant font-medium">Digital Sanctuary</p>
         </div>
-        <button onClick={() => setIsOpen(false)} className="lg:hidden text-on-surface-variant hover:text-primary">
-          <X size={24} />
+        <button onClick={() => setIsOpen(false)} className="md:hidden text-on-surface-variant hover:text-blue-700">
+          <span className="material-symbols-outlined">close</span>
         </button>
       </div>
 
-      <nav className="flex-1 mt-6 px-4 space-y-2">
+      <nav className="flex-1 flex flex-col gap-y-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== '/');
+          
+          if (isActive) {
+            return (
+              <Link 
+                key={item.href} 
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 bg-white text-blue-700 rounded-2xl shadow-sm font-semibold transition-colors duration-200"
+              >
+                <span className="material-symbols-outlined">{item.icon}</span>
+                <span className="font-label">{item.name}</span>
+              </Link>
+            )
+          }
+
           return (
             <Link 
-              key={item.name} 
+              key={item.href} 
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group ${
-                isActive 
-                  ? "bg-primary/10 text-primary border-l-4 border-primary" 
-                  : "text-on-surface-variant hover:text-primary hover:bg-primary/5"
-              }`}
+              className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors duration-200"
             >
-              <item.icon size={22} className={isActive ? "text-primary" : "group-hover:text-primary"} />
-              <span className="font-semibold text-sm">{item.name}</span>
+              <span className="material-symbols-outlined">{item.icon}</span>
+              <span className="font-label">{item.name}</span>
             </Link>
-          );
+          )
         })}
       </nav>
 
-      <div className="p-6 space-y-4">
-        <div className="bg-amber-500/5 border border-amber-500/10 p-4 rounded-xl flex gap-3">
-          <AlertCircle className="text-amber-600 shrink-0" size={16} />
-          <p className="text-[9px] text-amber-700/80 leading-relaxed font-medium">
-            <span className="font-bold uppercase block mb-0.5">Clinical Disclaimer</span>
-            MedAI provides analysis support only. It is not a substitute for professional medical judgment.
-          </p>
-        </div>
-        <div className="bg-primary/5 p-4 rounded-2xl mb-6 flex items-center gap-3 border border-primary/10">
-          <div className="h-8 w-8 bg-green-500/10 text-green-600 rounded-full flex items-center justify-center">
-            <ShieldCheck size={18} />
-          </div>
-          <p className="text-[10px] text-on-surface-variant/70 leading-tight font-medium">HIPAA Compliant & Encrypted Ecosystem</p>
-        </div>
-        
+      <button className="mt-4 mb-8 bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+        <span className="material-symbols-outlined text-sm">add</span>
+        New Analysis
+      </button>
+
+      <div className="pt-6 border-t border-slate-200 flex flex-col gap-y-2">
+        <a className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-blue-700 transition-colors" href="#">
+          <span className="material-symbols-outlined text-[20px]">contact_support</span>
+          <span className="text-xs font-medium">Support</span>
+        </a>
         <button 
           onClick={() => logout()}
-          className="w-full flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
+          className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-blue-700 transition-colors w-full text-left"
         >
-          <LogOut size={22} />
-          <span className="font-semibold text-sm">Sign Out</span>
+          <span className="material-symbols-outlined text-[20px]">logout</span>
+          <span className="text-xs font-medium">Log Out</span>
         </button>
       </div>
     </>
@@ -100,29 +84,25 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       <button 
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-6 left-6 z-[60] bg-blue-600 p-2 rounded-xl text-white shadow-lg"
+        className="md:hidden fixed top-4 left-4 z-[60] bg-white p-2 rounded-xl text-blue-700 shadow-sm border border-slate-100"
       >
-        <Menu size={24} />
+        <span className="material-symbols-outlined">menu</span>
       </button>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-72 h-screen fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant/30 flex-col z-50 no-print">
+      <aside className="hidden md:flex flex-col p-6 gap-y-4 h-screen w-64 bg-surface-container border-r-0 fixed left-0 top-0 z-40 no-print">
         {sidebarContent}
       </aside>
 
-      {/* Mobile Sidebar Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] lg:hidden"
+          className="fixed inset-0 bg-blue-900/20 backdrop-blur-sm z-[70] md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Mobile Sidebar Drawer */}
-      <aside className={`fixed top-0 left-0 h-full w-72 bg-surface-container-low border-r border-outline-variant/30 z-[80] transform transition-transform duration-300 lg:hidden flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed top-0 left-0 h-full w-64 bg-surface-container flex-col p-6 gap-y-4 z-[80] transform transition-transform duration-300 md:hidden flex no-print ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         {sidebarContent}
       </aside>
     </>

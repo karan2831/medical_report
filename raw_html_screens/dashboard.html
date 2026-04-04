@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MedAI Clinical Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#f8f9ff",
+              "inverse-surface": "#233144",
+              "tertiary-fixed-dim": "#ffb596",
+              "secondary-fixed": "#dbe1ff",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#31447b",
+              "secondary-fixed-dim": "#b4c5ff",
+              "on-primary-container": "#eeefff",
+              "outline-variant": "#c3c6d7",
+              "surface-container": "#e6eeff",
+              "on-tertiary-container": "#ffede6",
+              "error": "#ba1a1a",
+              "secondary": "#495c95",
+              "tertiary-fixed": "#ffdbcd",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#003ea8",
+              "primary": "#004ac6",
+              "on-surface": "#0d1c2e",
+              "on-surface-variant": "#434655",
+              "surface-container-highest": "#d5e3fc",
+              "on-background": "#0d1c2e",
+              "surface-variant": "#d5e3fc",
+              "background": "#f8f9ff",
+              "tertiary-container": "#bc4800",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#0053db",
+              "inverse-primary": "#b4c5ff",
+              "surface-container-low": "#eff4ff",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "error-container": "#ffdad6",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-fixed": "#00174b",
+              "on-secondary-container": "#394c84",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#dce9ff",
+              "secondary-container": "#acbfff",
+              "surface-dim": "#ccdbf3",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-primary-fixed": "#00174b",
+              "primary-container": "#2563eb",
+              "outline": "#737686",
+              "tertiary": "#943700",
+              "inverse-on-surface": "#eaf1ff",
+              "on-tertiary-fixed": "#360f00",
+              "on-error": "#ffffff",
+              "surface-bright": "#f8f9ff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ghost-border { border: 1px solid rgba(195, 198, 215, 0.2); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col p-6 gap-y-4 h-screen w-64 bg-surface-container border-r-0 fixed left-0 top-0 z-40">
+<div class="mb-8 px-2">
+<h1 class="text-xl font-bold text-blue-700 tracking-tight">Clinical Portal</h1>
+<p class="text-xs text-on-surface-variant font-medium">Digital Sanctuary</p>
+</div>
+<nav class="flex-1 flex flex-col gap-y-2">
+<!-- Active Navigation -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white text-blue-700 rounded-2xl shadow-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">cloud_upload</span>
+<span class="font-label">Upload</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">compare_arrows</span>
+<span class="font-label">Compare</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label">Settings</span>
+</a>
+</nav>
+<button class="mt-4 mb-8 bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">add</span>
+            New Analysis
+        </button>
+<div class="pt-6 border-t border-slate-200 flex flex-col gap-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-blue-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+<span class="text-xs font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-blue-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="text-xs font-medium">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 min-h-screen bg-surface-container-low flex flex-col">
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 left-0 md:left-64 z-30 h-20 bg-white/70 backdrop-blur-xl flex justify-between items-center px-8 shadow-[0_24px_48px_-12px_rgba(13,28,46,0.08)]">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black tracking-tight text-blue-700">MedAI</span>
+<div class="hidden lg:flex ml-8 gap-6">
+<span class="text-blue-700 font-bold border-b-2 border-blue-700 pb-1 text-sm">Dashboard</span>
+<span class="text-slate-500 font-medium text-sm">Patient Logs</span>
+<span class="text-slate-500 font-medium text-sm">Analytics</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-surface-container rounded-xl px-4 py-2 ghost-border">
+<span class="material-symbols-outlined text-slate-400 mr-2 text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-on-surface" placeholder="Search patients..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-blue-50/50 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-blue-50/50 rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden border-2 border-white shadow-sm">
+<img alt="Dr. Smith's Profile" class="w-full h-full object-cover" data-alt="professional portrait of a male doctor in clinical setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOkFRFqXOoVRnQNT8ePYn8WNShhu7aFuRFaRL2nCNK_-Y5bsxAvR4IRZIFwqvSZ_XnPhXtmRwBs49IYp3DduBfRPafjWNwrUR1YLQqgK1LnJAj70xW-4Ve5h98dfaaimMMNuH4Iz4ixwGMkHrRqrlOvccHTDfoW-do-FZeE8qnPJDf_UfaX7MB2eSfTTvBzR6Lg4tS7BOpe-y9OJ0yOEDWUqdINkmQrcg2LObRQzE8auPBWaykgvdiSzTLBNkiHTNOZkqGmk3Nu5AB"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Body -->
+<section class="pt-28 px-8 pb-12 max-w-7xl mx-auto w-full">
+<!-- Hero Stats / Alerts Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Red Alert -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ghost-border relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-error-container text-error rounded-xl">
+<span class="material-symbols-outlined">priority_high</span>
+</div>
+<span class="px-3 py-1 bg-error-container text-error text-[10px] font-bold rounded-full uppercase tracking-wider">Critical</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface">Atrial Fibrillation</h3>
+<p class="text-sm text-on-surface-variant mt-1">Detected in Patient #8421. Immediate review required.</p>
+<div class="mt-4 flex items-center text-xs text-error font-semibold">
+<span>View Emergency Report</span>
+<span class="material-symbols-outlined text-xs ml-1">chevron_right</span>
+</div>
+</div>
+<!-- Yellow Alert -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ghost-border relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary-fixed-dim text-tertiary-fixed-variant rounded-xl" style="background-color: #ffdbcd; color: #7d2d00;">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="px-3 py-1 bg-tertiary-fixed text-tertiary text-[10px] font-bold rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface">Thyroid Scan Results</h3>
+<p class="text-sm text-on-surface-variant mt-1">Possible nodule found in Patient #7712. Awaiting secondary AI verification.</p>
+<div class="mt-4 flex items-center text-xs text-tertiary font-semibold">
+<span>Check Status</span>
+<span class="material-symbols-outlined text-xs ml-1">chevron_right</span>
+</div>
+</div>
+<!-- Green Success -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ghost-border relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-full uppercase tracking-wider">Normal</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface">Cardiology Panel</h3>
+<p class="text-sm text-on-surface-variant mt-1">Patient #9022 baseline metrics within optimal range.</p>
+<div class="mt-4 flex items-center text-xs text-emerald-600 font-semibold">
+<span>Archive Results</span>
+<span class="material-symbols-outlined text-xs ml-1">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Section -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Main Reports List (Col 8) -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h2 class="text-2xl font-extrabold text-blue-700 tracking-tight">Recent Patient Reports</h2>
+<p class="text-on-surface-variant text-sm mt-1">AI-assisted diagnostic analysis logs.</p>
+</div>
+<button class="text-sm font-semibold text-primary flex items-center gap-1 hover:underline">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Report Cards -->
+<div class="space-y-4">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ghost-border hover:shadow-md transition-shadow flex items-start gap-6 group">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined text-3xl">pulmonology</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface text-lg group-hover:text-blue-700 transition-colors">Pulmonary Fibrosis Screening</h4>
+<span class="text-xs font-medium text-slate-400">Oct 24, 2024</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">Early signs of reticular opacities noted in lower lobes. AI confidence score: 88%. Recommended follow-up in 3 months.</p>
+<div class="mt-4 flex gap-4">
+<span class="flex items-center gap-1 text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">visibility</span> Full View
+                                    </span>
+<span class="flex items-center gap-1 text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">share</span> Export PDF
+                                    </span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ghost-border hover:shadow-md transition-shadow flex items-start gap-6 group">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined text-3xl">biotech</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface text-lg group-hover:text-blue-700 transition-colors">Hematology: Anemia Profile</h4>
+<span class="text-xs font-medium text-slate-400">Oct 22, 2024</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">Decreased Hemoglobin and MCV levels. Morphology suggests Iron Deficiency. Nutritional guidance generated.</p>
+<div class="mt-4 flex gap-4">
+<span class="flex items-center gap-1 text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">visibility</span> Full View
+                                    </span>
+<span class="flex items-center gap-1 text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">share</span> Export PDF
+                                    </span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm ghost-border hover:shadow-md transition-shadow flex items-start gap-6 group">
+<div class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined text-3xl">neurology</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-on-surface text-lg group-hover:text-blue-700 transition-colors">Brain MRI Analysis</h4>
+<span class="text-xs font-medium text-slate-400">Oct 20, 2024</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">T2 hyperintensities noted. AI cross-reference indicates 12% increase in volume since previous scan. Compare suggested.</p>
+<div class="mt-4 flex gap-4">
+<span class="flex items-center gap-1 text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">visibility</span> Full View
+                                    </span>
+<span class="flex items-center gap-1 text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">share</span> Export PDF
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Comparisons (Col 4) -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<h2 class="text-2xl font-extrabold text-on-surface tracking-tight">Recent Comparisons</h2>
+<div class="bg-surface-container p-1 rounded-2xl">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm">
+<div class="flex flex-col gap-6">
+<!-- Comparison 1 -->
+<div class="relative pl-6 border-l-2 border-blue-200 py-1">
+<div class="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-blue-700 border-4 border-white"></div>
+<h5 class="text-sm font-bold text-on-surface">MRI T1 vs T2 (Patient #44)</h5>
+<p class="text-[10px] text-slate-400 font-medium mt-1">Compared 2 hours ago</p>
+<div class="mt-3 flex -space-x-2">
+<div class="h-8 w-8 rounded-lg bg-slate-100 border border-white overflow-hidden">
+<img alt="MRI scan visualization" class="w-full h-full object-cover grayscale opacity-80" data-alt="high contrast medical MRI brain scan cross-section in grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpksrE7BFpXsuj35Vixc9GmhVcotq8GVwlv4Wra-_0l_7XkomEUtQ0p3bcjf8ABqDoSIzfPPduKvm-97Qd02Y41htfbAZk2aW3a8rCOu8HMxUNB6yr1Zl7TaAebB2a3m6e7xgpXe5XcgNEBzLqnH2Mov1P_hzaruNQ0FGF102SgLGL2jsUdVb90XMrIlLgQyDuQqKdwH_ZZM0fzNAnAvZEqnNr2XhV4FDJ1nfu5mNm_XqbaCjZgzXMP8c-l1YR0w6RPJdJMprW7Ix3"/>
+</div>
+<div class="h-8 w-8 rounded-lg bg-slate-100 border border-white overflow-hidden">
+<img alt="MRI scan secondary view" class="w-full h-full object-cover opacity-80" data-alt="secondary medical imaging scan showing neural pathways in cool blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGkfgOyH2bTj1RPTT5oUZQv_v7RZuFqGlFSNkqb6AEvMdMiYOA3oAEswFEHLFGk2UMq_RvNL-kDbqVt4LZQoEHxCmjvPM8RGE3Dfl7m-cB6oLPc0rAOUX9YbzPieKbTEC118UTe2G6JlWbg-hr3WZ26G3dmzPetIX_S909Wms724H1BtezSMdAO4kGaEamaNn4-m1CsPnU2fCxi0c25gvVX8NbfPhajwCd4rqgw98aCO1GXQzgZ12V1nL6Rf5wH2A87iLST3W4TBff"/>
+</div>
+</div>
+</div>
+<!-- Comparison 2 -->
+<div class="relative pl-6 border-l-2 border-blue-200 py-1">
+<div class="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-blue-300 border-4 border-white"></div>
+<h5 class="text-sm font-bold text-on-surface">Lab Trends: H1N1 Panel</h5>
+<p class="text-[10px] text-slate-400 font-medium mt-1">Compared yesterday</p>
+<div class="mt-2 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%] rounded-full"></div>
+</div>
+</div>
+<!-- Comparison 3 -->
+<div class="relative pl-6 border-l-2 border-blue-200 py-1">
+<div class="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-blue-300 border-4 border-white"></div>
+<h5 class="text-sm font-bold text-on-surface">X-Ray: Chest Baseline</h5>
+<p class="text-[10px] text-slate-400 font-medium mt-1">Compared 3 days ago</p>
+</div>
+</div>
+<button class="w-full mt-8 py-3 rounded-xl ghost-border text-sm font-bold text-primary hover:bg-blue-50 transition-all">
+                                Launch Comparator
+                            </button>
+</div>
+</div>
+<!-- AI Vitality Float Card -->
+<div class="bg-gradient-to-br from-primary to-primary-container p-6 rounded-2xl shadow-xl shadow-primary/20 relative overflow-hidden text-white">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl opacity-50 mb-2">auto_awesome</span>
+<h4 class="text-lg font-bold mb-2">AI Insights Ready</h4>
+<p class="text-sm text-blue-100 leading-relaxed mb-4">Neural Engine has completed analyzing 1,204 data points for this morning's logs.</p>
+<div class="bg-white/20 backdrop-blur-md rounded-xl p-3 flex items-center justify-between">
+<span class="text-xs font-bold">Accuracy Rating</span>
+<span class="text-xs font-black">99.2%</span>
+</div>
+</div>
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Component -->
+<footer class="mt-auto w-full border-t border-slate-100 bg-white py-12 px-8 flex flex-col md:flex-row justify-between items-center">
+<div class="mb-6 md:mb-0 text-center md:text-left">
+<span class="font-bold text-blue-700 brand-font text-lg">MedAI</span>
+<p class="text-xs font-medium text-slate-400 mt-1">© 2024 MedAI Digital Sanctuary. For professional use only.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-colors" href="#">Terms of Service</a>
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-colors" href="#">Clinical Guidelines</a>
+<a class="text-xs font-medium text-slate-400 hover:text-blue-700 transition-colors" href="#">HIPAA Compliance</a>
+</div>
+</footer>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50">
+<span class="material-symbols-outlined">add_comment</span>
+</button>
+</body></html>

@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -34,8 +34,22 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // We defer strictly to the client-side AuthGuard and cookies for Auth handling
-  // to prevent loop redirects. Next.js router + AuthGuard manages security visually.
+  // Route protection
+  const protectedRoutes = ['/', '/upload', '/insights', '/compare', '/settings', '/lab', '/reports']
+  const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname === route)
+
+  if (isProtectedRoute && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
+  }
+
+  // Prevent accessing login page if already authenticated
+  if (request.nextUrl.pathname === '/login' && user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
+    return NextResponse.redirect(url)
+  }
 
   return response
 }

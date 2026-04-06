@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nearby Care | MedAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#943700",
+                    "background": "#f8f9ff",
+                    "surface-dim": "#ccdbf3",
+                    "outline-variant": "#c3c6d7",
+                    "tertiary-fixed": "#ffdbcd",
+                    "on-surface-variant": "#434655",
+                    "on-secondary-fixed": "#00174b",
+                    "tertiary-container": "#bc4800",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#737686",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "surface-variant": "#d5e3fc",
+                    "surface-container-high": "#dce9ff",
+                    "on-primary-container": "#eeefff",
+                    "on-primary-fixed": "#00174b",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "inverse-surface": "#233144",
+                    "surface-bright": "#f8f9ff",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-tertiary-container": "#ffede6",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container": "#e6eeff",
+                    "on-primary": "#ffffff",
+                    "on-background": "#0d1c2e",
+                    "on-tertiary-fixed": "#360f00",
+                    "secondary-container": "#acbfff",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#0053db",
+                    "surface-container-low": "#eff4ff",
+                    "primary": "#004ac6",
+                    "on-secondary-fixed-variant": "#31447b",
+                    "on-surface": "#0d1c2e",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "surface-container-highest": "#d5e3fc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#2563eb",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary-container": "#394c84",
+                    "secondary": "#495c95",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .clinical-shadow { box-shadow: 0 24px 48px -12px rgba(13, 28, 46, 0.08); }
+        .glass-nav { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface-container-low text-on-surface">
+<!-- Top Navigation Bar (Shared Component: TopNavBar) -->
+<nav class="fixed top-0 w-full z-50 glass-nav shadow-[0_24px_48px_-12px_rgba(13,28,46,0.08)] flex justify-between items-center px-8 h-16 w-full max-w-full">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tighter text-blue-700">MedAI</span>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors" href="#">Patients</a>
+<a class="text-blue-700 border-b-2 border-blue-700 pb-1 font-semibold tracking-tight" href="#">Nearby Care</a>
+<a class="text-slate-500 font-medium hover:text-blue-600 transition-colors" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="hidden sm:flex items-center bg-surface-container rounded-full px-4 py-1.5 gap-2 cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span class="text-sm font-medium">Location Selector</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-blue-700">notifications</span>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-blue-700">settings</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a medical doctor in a clinical setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoOwBbc1pfpMxdw2CYjAilm3NFuNIXJzLHD0tSox3Gn0-JzZojxKQAcnOlMEAHgN3YYOKbQi5qESdAhH0__5qJpuZN__tHM9BlDsw4N5ONKI3yQ5WP4UHHLEGpcxgPwZvH58kFCtFTY_x32MKeHRynTO6SPcQe75E03xI9cIiDaT_ZB584x7nhcKu70KvuylvPOMTzqO6XTOsfEOn8B0EWyZDrGWZSUpgHdLF_7O_M7ABxScHDsIyipi-l7dTMyKWemf4d4jcrNFke"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-16 px-8 max-w-7xl mx-auto">
+<!-- Location Header Section -->
+<header class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Find Healthcare Nearby</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl">Access immediate clinical care through our network of verified specialists and medical institutions.</p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-lowest p-2 rounded-2xl clinical-shadow">
+<select class="bg-transparent border-none text-on-surface font-semibold focus:ring-0 cursor-pointer py-2 pl-4 pr-10">
+<option>Siliguri</option>
+<option>Kolkata</option>
+<option>Delhi</option>
+<option>Mumbai</option>
+<option>Bangalore</option>
+</select>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-primary-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span>
+                        Use Current Location
+                    </button>
+</div>
+</div>
+</header>
+<!-- Search & Filter Bar -->
+<section class="mb-10 flex flex-wrap items-center gap-4">
+<!-- Toggle Group -->
+<div class="bg-surface-container p-1.5 rounded-2xl flex gap-1">
+<button class="bg-surface-container-lowest text-primary px-6 py-2.5 rounded-xl font-bold clinical-shadow">Hospitals</button>
+<button class="text-on-surface-variant px-6 py-2.5 rounded-xl font-medium hover:bg-surface-container-high transition-colors">Doctors</button>
+</div>
+<!-- Selectors -->
+<div class="flex flex-wrap gap-3">
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border border-outline-variant/20 px-5 py-3 pr-12 rounded-2xl font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 clinical-shadow">
+<option>Specialty: All</option>
+<option>Cardiology</option>
+<option>Neurology</option>
+<option>Pediatrics</option>
+<option>Oncology</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border border-outline-variant/20 px-5 py-3 pr-12 rounded-2xl font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 clinical-shadow">
+<option>Distance: 5 km</option>
+<option>10 km</option>
+<option>25 km</option>
+<option>50+ km</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</div>
+<!-- Quick Action -->
+<div class="ml-auto">
+<button class="flex items-center gap-2 text-primary font-bold px-4 py-2 hover:bg-primary/5 rounded-xl transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+                    More Filters
+                </button>
+</div>
+</section>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Provider Card 1 -->
+<div class="group bg-surface-container-lowest rounded-2xl clinical-shadow overflow-hidden flex flex-col border border-outline-variant/10 hover:border-primary/30 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Modern hospital exterior with large glass windows and clean architectural lines under a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBscHESZEyKmvcLectx4p9W0Em6BcC7ht5WQYmW106J2di_ATxgdM7U2vEyB-D-nm0EMa8UG8_tdPw9tb9N1NColeExcTB03oaQFS8Vhjv90ddI1puZaf2a6j8zHX0M47aPMGAaZ5fCv2JkP8EnXZqUV50oAjUEsBrV7rtU-VwslCiBauqLQ5KdgtkSTKUbKtaMgy91PppOEz2evhzxsihlkJW2w8IKbxTxujroeLc1_Cb0-Ia5-x3BJlJRJlO58RbCY9yUMGQHUMkn"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Open 24/7</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface mb-1">City General Hospital</h3>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                122 North Clinical Way, Siliguri
+                            </div>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-1 rounded-lg flex items-center gap-1 font-bold text-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            4.8
+                        </div>
+</div>
+<div class="flex items-center gap-4 mt-auto pt-6">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">Distance</span>
+<span class="font-bold text-primary">2.4 km</span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">Wait Time</span>
+<span class="font-bold text-on-surface">~15 mins</span>
+</div>
+</div>
+<button class="mt-6 w-full py-3 rounded-xl border border-primary text-primary font-bold flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">map</span>
+                        View on Map
+                    </button>
+</div>
+</div>
+<!-- Provider Card 2 -->
+<div class="group bg-surface-container-lowest rounded-2xl clinical-shadow overflow-hidden flex flex-col border border-outline-variant/10 hover:border-primary/30 transition-all">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Wide angle view of a clean, minimalist contemporary medical lobby with soft overhead lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXIMu3pvhdvuqDjZMuFxK9ar4EU-zNlXI8JcQXTwGEXJPWj1w7hifsFT3KC3tfZaE0ObLkkqfX1T1DSrL5g1t1UK2DNxwyS-f3RvvxRKxg5TfngZz19byREp4L-RTVv_SxoB_7JHTsRhqZ1LZH8mfVPGVKAuBtCS_RaZxHq5ceKgnNLeMxQ8ZOrzp7AnyUNncS4wNtYF4akuGZfSxoJWei0VSnUYMaWl9moaqNWbMYD4GXpQs_Dv4rQiPNnghgmQlvmBdmMRwpJVHk"/>
+<div class="absolute top-4 left-4 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Multi-Specialty</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface mb-1">St. Lukes Heart Center</h3>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                45 Central Avenue, Siliguri
+                            </div>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-1 rounded-lg flex items-center gap-1 font-bold text-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            4.9
+                        </div>
+</div>
+<div class="flex items-center gap-4 mt-auto pt-6">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">Distance</span>
+<span class="font-bold text-primary">0.8 km</span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">Wait Time</span>
+<span class="font-bold text-on-surface">~45 mins</span>
+</div>
+</div>
+<button class="mt-6 w-full py-3 rounded-xl border border-primary text-primary font-bold flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">map</span>
+                        View on Map
+                    </button>
+</div>
+</div>
+<!-- Provider Card 3 (Doctor Specific Styling Example) -->
+<div class="group bg-surface-container-lowest rounded-2xl clinical-shadow overflow-hidden flex flex-col border border-outline-variant/10 hover:border-primary/30 transition-all">
+<div class="h-48 relative overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative w-32 h-32 rounded-full border-4 border-surface-container-lowest overflow-hidden clinical-shadow">
+<img class="w-full h-full object-cover" data-alt="Portrait of a friendly smiling female cardiologist in medical attire against a clean neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCthp-zVDf6GR1eNZTMRiRHkR2yH3BTJrkA-DKaT8IhWgU4oxWSepguNlYPd22CmGm9IQrlbZdcrWdrmLitOzcIPL1-OYTxtVxZj_hNJq9Wq2OdlmfBE8FFEcaY1CqwM3nzvny_I4bbZTPLaYyJ6t_gcC8BrhqSeJDqDZXSuTIaXlZlweonefMLuonLUIJlHIQlp8B_6da-8FeX43NwugeyST1OK0BQK-qcMAYBRaqKFYaMNKhMiFGX9ttzxpn7aI_cf6LFEpfU-p1L"/>
+</div>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface mb-1">Dr. Elena Rodriguez</h3>
+<div class="flex items-center gap-1 text-primary text-sm font-semibold mb-2">
+                                Cardiologist • 12 yrs Exp.
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                Apex Clinics, Siliguri
+                            </div>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-1 rounded-lg flex items-center gap-1 font-bold text-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            5.0
+                        </div>
+</div>
+<div class="flex items-center gap-4 mt-auto pt-6">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">Distance</span>
+<span class="font-bold text-primary">3.1 km</span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant font-medium">Fee</span>
+<span class="font-bold text-on-surface">$50.00</span>
+</div>
+</div>
+<button class="mt-6 w-full py-3 rounded-xl border border-primary text-primary font-bold flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">calendar_today</span>
+                        Book Appointment
+                    </button>
+</div>
+</div>
+<!-- Map Integration Component (Conceptual) -->
+<div class="col-span-1 lg:col-span-3 mt-8">
+<div class="bg-surface-container rounded-2xl overflow-hidden relative h-[400px] clinical-shadow">
+<img class="w-full h-full object-cover grayscale brightness-110 opacity-60" data-alt="Top-down stylized map view showing local streets and medical clinic markers in a clean modern interface style" data-location="Siliguri" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi7IETpQBwvzwlSJc3aZCREhYR2Grxmh8WeA2V6uiu6CxtNa9RQwFukqE7S3oXIpbaMt696JKLJ5yCEjvOGtKyVF5V6BfldYKqFe2dP_nHayoN04fGNyTUg-0Ns1cCVi74h2sbKFjncPWwXXIXBY-CNlez1CfcjOqn3bwt6Jr4YDR_5JWfCJOk8H-FLArQpu7JewfJMcS49c7G-bKThjIh1ZAIGW00u-eZDsV0aY76O2hJUj7Or82ubDC6Rq1uo9WD3A5NxgKFmSq4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div>
+<!-- Floating Map Card -->
+<div class="absolute bottom-6 left-6 right-6 md:right-auto md:w-96 bg-surface-container-lowest/90 backdrop-blur-md p-6 rounded-2xl clinical-shadow border border-outline-variant/20">
+<div class="flex justify-between items-center mb-4">
+<h4 class="font-bold text-lg">Interactive Map View</h4>
+<button class="bg-primary text-on-primary p-2 rounded-full">
+<span class="material-symbols-outlined">fullscreen</span>
+</button>
+</div>
+<p class="text-on-surface-variant text-sm mb-4">Visualize all available care centers in your vicinity. Markers are color-coded by medical specialty.</p>
+<button class="w-full bg-primary/10 text-primary py-3 rounded-xl font-bold hover:bg-primary/20 transition-all">Explore Map Area</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Navigation (Shared Component: SideNavBar - Hidden by default on small screens) -->
+<aside class="hidden lg:flex fixed left-0 top-0 h-screen w-20 flex-col py-6 px-4 space-y-8 bg-surface-container-low border-r border-outline-variant/10 z-[60]">
+<div class="flex flex-col items-center gap-6">
+<span class="material-symbols-outlined text-primary text-3xl font-black">emergency</span>
+<div class="w-full h-[1px] bg-outline-variant/20"></div>
+<div class="flex flex-col items-center space-y-4">
+<button class="p-3 text-slate-500 hover:text-primary hover:bg-surface-container transition-all rounded-xl">
+<span class="material-symbols-outlined">home</span>
+</button>
+<button class="p-3 bg-primary/10 text-primary rounded-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</button>
+<button class="p-3 text-slate-500 hover:text-primary hover:bg-surface-container transition-all rounded-xl">
+<span class="material-symbols-outlined">insights</span>
+</button>
+<button class="p-3 text-slate-500 hover:text-primary hover:bg-surface-container transition-all rounded-xl">
+<span class="material-symbols-outlined">folder_managed</span>
+</button>
+</div>
+</div>
+<div class="mt-auto flex flex-col items-center gap-4">
+<button class="p-3 text-slate-500 hover:text-primary hover:bg-surface-container transition-all rounded-xl">
+<span class="material-symbols-outlined">contact_support</span>
+</button>
+<div class="w-10 h-10 rounded-xl bg-error/10 text-error flex items-center justify-center cursor-pointer hover:bg-error hover:text-on-error transition-all active:scale-90">
+<span class="material-symbols-outlined">medical_services</span>
+</div>
+</div>
+</aside>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 glass-nav shadow-[0_-12px_24px_rgba(13,28,46,0.05)] flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="text-[10px] font-bold">Nearby</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-[10px] font-bold">Health</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</button>
+</nav>
+</body></html>

@@ -8,7 +8,8 @@ import { logout } from "@/lib/auth";
 const navItems = [
   { name: "Dashboard", href: "/", icon: "dashboard" },
   { name: "Upload", href: "/upload", icon: "cloud_upload" },
-  { name: "Lab Analyzer", href: "/lab", icon: "science" }, // Using science or similar if exact matches vary
+  { name: "Lab Analyzer", href: "/lab", icon: "science" },
+  { name: "Nearby Care", href: "/hospitals", icon: "location_on" },
   { name: "Compare", href: "/compare", icon: "compare_arrows" },
   { name: "Settings", href: "/settings", icon: "settings" },
 ];

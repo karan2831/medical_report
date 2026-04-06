@@ -20,7 +20,9 @@ import {
   TrendingUp,
   TrendingDown,
   Minus,
+  Languages,
 } from "lucide-react";
+import { useTranslation } from "../components/TranslationContext";
 
 function RiskMeter({ score, level }) {
   const colors = {
@@ -75,10 +77,63 @@ function InsightsContent() {
   const [loading, setLoading] = useState(true);
   const [similarCases, setSimilarCases] = useState([]);
   const [history, setHistory] = useState([]);
+  
+  // Translation States
+  const { selectedLanguage, translateText } = useTranslation();
+  const [translatedData, setTranslatedData] = useState({
+    disease: "",
+    summary: "",
+    explanation: "",
+    isTranslating: false
+  });
 
   useEffect(() => {
     if (id) fetchReport();
   }, [id]);
+
+  // Trigger translation when report is loaded or language changes
+  useEffect(() => {
+    if (report) {
+      handleTranslation();
+    }
+  }, [report, selectedLanguage]);
+
+  const handleTranslation = async () => {
+    const ext = report.extracted_data?.[0] || {};
+    const baseDisease = ext.disease || "Pending Analysis";
+    const baseSummary = ext.summary || "";
+    const baseExplanation = ext.explanation || "";
+
+    if (selectedLanguage === "en") {
+      setTranslatedData({
+        disease: baseDisease,
+        summary: baseSummary,
+        explanation: baseExplanation,
+        isTranslating: false
+      });
+      return;
+    }
+
+    setTranslatedData(prev => ({ ...prev, isTranslating: true }));
+
+    try {
+      const [tDisease, tSummary, tExplanation] = await Promise.all([
+        translateText(baseDisease),
+        translateText(baseSummary),
+        translateText(baseExplanation)
+      ]);
+
+      setTranslatedData({
+        disease: tDisease || baseDisease,
+        summary: tSummary || baseSummary,
+        explanation: tExplanation || baseExplanation,
+        isTranslating: false
+      });
+    } catch (err) {
+      console.error("Translation error in Insights:", err);
+      setTranslatedData(prev => ({ ...prev, isTranslating: false }));
+    }
+  };
 
   const fetchReport = async () => {
     try {
@@ -145,12 +200,9 @@ function InsightsContent() {
   }
 
   const ext = report.extracted_data?.[0] || {};
-  const disease = ext.disease || "Pending Analysis";
   const symptoms = ext.symptoms || "";
   const medications = ext.medications || "";
   const tests = ext.tests || "";
-  const summary = ext.summary || "";
-  const explanation = ext.explanation || "";
   const riskScore = ext.risk_score ?? 0;
   const riskLevel = ext.risk_level || "Low";
 
@@ -172,9 +224,17 @@ function InsightsContent() {
           <div className="flex items-center gap-3 text-primary">
             <BrainCircuit size={20} />
             <span className="text-[10px] uppercase tracking-[0.4em] font-bold">AI Diagnostic Report</span>
-            <span className="px-3 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-green-200">Scan Complete</span>
+            {translatedData.isTranslating ? (
+              <span className="px-3 py-0.5 bg-blue-100 text-blue-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-blue-200 flex items-center gap-2">
+                <Loader2 className="animate-spin" size={10} /> Translating...
+              </span>
+            ) : (
+              <span className="px-3 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-green-200">Scan Complete</span>
+            )}
           </div>
-          <h1 className="text-4xl font-manrope font-bold tracking-tight text-on-surface">{disease}</h1>
+          <h1 className="text-4xl font-manrope font-bold tracking-tight text-on-surface">
+            {translatedData.disease}
+          </h1>
           <p className="text-on-surface-variant text-sm font-medium">Report ID: {report.id?.slice(0, 16).toUpperCase()} · {new Date(report.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
         </div>
         <div className="flex gap-3 no-print">
@@ -202,17 +262,32 @@ function InsightsContent() {
               <div className="flex items-center gap-2 font-bold text-on-surface">
                 <BrainCircuit size={18} className="text-primary" /> Neural Findings
               </div>
-              <span className="text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest">Confidence: 98.4%</span>
+              <div className="flex items-center gap-4">
+                {selectedLanguage !== "en" && (
+                   <span className="flex items-center gap-1 text-[8px] font-bold text-blue-600/60 uppercase tracking-[0.2em]">
+                     <Languages size={10} /> Translated
+                   </span>
+                )}
+                <span className="text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest">Confidence: 98.4%</span>
+              </div>
             </div>
             <div className="p-8 grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="space-y-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">Primary Diagnosis</span>
-                  <p className="text-3xl font-bold font-manrope text-on-surface">{disease}</p>
+                  <p className="text-3xl font-bold font-manrope text-on-surface">{translatedData.disease}</p>
                 </div>
                 <div className="space-y-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">Clinical Summary</span>
-                  <p className="text-sm text-on-surface-variant leading-relaxed">{summary || "Awaiting summary extraction."}</p>
+                  <p className="text-sm text-on-surface-variant leading-relaxed">
+                    {translatedData.isTranslating ? (
+                      <span className="flex items-center gap-2 italic text-outline animate-pulse">
+                         Neural Synthesis in progress...
+                      </span>
+                    ) : (
+                      translatedData.summary || "Awaiting summary extraction."
+                    )}
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">Identified Symptoms</span>
@@ -237,12 +312,18 @@ function InsightsContent() {
           </div>
 
           {/* AI Explanation */}
-          {explanation && (
+          {(translatedData.explanation || translatedData.isTranslating) && (
             <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10 space-y-3">
               <h4 className="font-bold text-on-surface flex items-center gap-2">
                 <Activity size={18} className="text-primary" /> Clinical Explanation
               </h4>
-              <p className="text-on-surface-variant leading-relaxed">&ldquo;{explanation}&rdquo;</p>
+              <p className="text-on-surface-variant leading-relaxed italic">
+                {translatedData.isTranslating ? (
+                   "Recalibrating diagnostic insights..."
+                ) : (
+                   `"${translatedData.explanation}"`
+                )}
+              </p>
             </div>
           )}
 
@@ -327,3 +408,4 @@ export default function InsightsPage() {
     </Suspense>
   );
 }
+

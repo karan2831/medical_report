@@ -4,13 +4,16 @@ import { useState } from "react";
 import { 
   User, Shield, Bell, HardDrive, 
   Fingerprint, Save, CheckCircle, 
-  LogOut, ShieldCheck, AlertCircle
+  LogOut, ShieldCheck, AlertCircle,
+  Languages
 } from "lucide-react";
 import { logout } from "@/lib/auth";
+import { useTranslation } from "../components/TranslationContext";
 
 export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
   const [notifications, setNotifications] = useState(true);
+  const { languages, selectedLanguage, setSelectedLanguage } = useTranslation();
 
   const handleSave = () => {
     setSaved(true);
@@ -85,6 +88,46 @@ export default function SettingsPage() {
 
       {/* Settings Sections */}
       <div className="space-y-6">
+        {/* Language Preference Section */}
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
+          <div className="px-8 py-5 bg-surface-container-low flex items-start gap-5">
+            <div className="h-12 w-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+              <Languages size={22} />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-on-surface">Language Preference</h3>
+              <p className="text-sm text-on-surface-variant">Select your preferred language for medical analysis and insights.</p>
+            </div>
+          </div>
+          <div className="p-8">
+            <div className="space-y-1.5 max-w-sm">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
+                Display Language
+              </label>
+              <div className="relative">
+                <select 
+                  value={selectedLanguage}
+                  onChange={(e) => setSelectedLanguage(e.target.value)}
+                  className="w-full bg-surface-container-low text-on-surface font-semibold text-sm rounded-xl px-5 py-4 border border-outline-variant/20 appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20"
+                >
+                  <option value="en">English (Default)</option>
+                  {languages.map((lang) => (
+                    <option key={lang.code} value={lang.code}>
+                      {lang.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">
+                  <Languages size={16} />
+                </div>
+              </div>
+              <p className="text-[10px] text-on-surface-variant/60 mt-2 italic">
+                * Real-time translation provided by LibreTranslate. Availability depends on the local translation node.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {sections.map((section) => (
           <div key={section.title} className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
             <div className="px-8 py-5 bg-surface-container-low flex items-start gap-5">
@@ -143,10 +186,9 @@ export default function SettingsPage() {
             </div>
             <button
               onClick={() => setNotifications(!notifications)}
-              className={`relative h-7 w-13 rounded-full transition-colors ${notifications ? "bg-primary" : "bg-outline-variant/40"}`}
-              style={{ width: 52 }}
+              className={`relative h-7 w-12 rounded-full transition-colors ${notifications ? "bg-primary" : "bg-outline-variant/40"}`}
             >
-              <span className={`absolute top-1 h-5 w-5 bg-white rounded-full shadow transition-all ${notifications ? "left-7" : "left-1"}`} />
+              <span className={`absolute top-1 h-5 w-5 bg-white rounded-full shadow transition-all ${notifications ? "left-6" : "left-1"}`} />
             </button>
           </div>
         </div>
@@ -173,3 +215,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   FlaskConical, 
   Activity, 
@@ -15,10 +15,12 @@ import {
   RotateCcw,
   CheckCircle,
   XCircle,
-  ChevronRight
+  ChevronRight,
+  Languages
 } from "lucide-react";
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from "@/app/components/ToastContext";
+import { useTranslation } from "../components/TranslationContext";
 
 function StatusBadge({ status }) {
   const config = {
@@ -41,6 +43,16 @@ export default function LabAnalyzerPage() {
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState(null);
   const { addToast } = useToast();
+  
+  // Translation States
+  const { selectedLanguage, translateText } = useTranslation();
+  const [translatedAnalysis, setTranslatedAnalysis] = useState({
+    summary: "",
+    interpretations: [],
+    recommendations: [],
+    disclaimer: "",
+    isTranslating: false
+  });
 
   const [form, setForm] = useState({
     systolic: "", diastolic: "",
@@ -60,7 +72,6 @@ export default function LabAnalyzerPage() {
     setLoading(true);
     addToast("Orchestrating Neural Lab Analysis...", "info");
     try {
-      // Get auth token for API call
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL as string,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
@@ -88,9 +99,63 @@ export default function LabAnalyzerPage() {
     }
   };
 
+  // Translation Trigger
+  useEffect(() => {
+    if (analysis && step === "results") {
+      handleTranslation();
+    }
+  }, [analysis, step, selectedLanguage]);
+
+  const handleTranslation = async () => {
+    if (!analysis) return;
+
+    if (selectedLanguage === "en") {
+      setTranslatedAnalysis({
+        summary: analysis.summary,
+        interpretations: analysis.interpretations || [],
+        recommendations: analysis.recommendations || [],
+        disclaimer: analysis.disclaimer || "",
+        isTranslating: false
+      });
+      return;
+    }
+
+    setTranslatedAnalysis(prev => ({ ...prev, isTranslating: true }));
+
+    try {
+      const [tSummary, tDisclaimer] = await Promise.all([
+        translateText(analysis.summary),
+        translateText(analysis.disclaimer)
+      ]);
+
+      const tInterpretations = await Promise.all(
+        (analysis.interpretations || []).map(async (item) => ({
+          ...item,
+          insight: await translateText(item.insight)
+        }))
+      );
+
+      const tRecommendations = await Promise.all(
+        (analysis.recommendations || []).map(async (rec) => await translateText(rec))
+      );
+
+      setTranslatedAnalysis({
+        summary: tSummary || analysis.summary,
+        interpretations: tInterpretations,
+        recommendations: tRecommendations,
+        disclaimer: tDisclaimer || analysis.disclaimer,
+        isTranslating: false
+      });
+    } catch (err) {
+      console.error("Translation error in Lab Analyzer:", err);
+      setTranslatedAnalysis(prev => ({ ...prev, isTranslating: false }));
+    }
+  };
+
   const handleReset = () => {
     setStep("input");
     setAnalysis(null);
+    setTranslatedAnalysis({ summary: "", interpretations: [], recommendations: [], disclaimer: "", isTranslating: false });
     setForm({ systolic: "", diastolic: "", glucose: "", hba1c: "", cholesterol: "", ldl: "", hdl: "", triglycerides: "" });
   };
 
@@ -131,6 +196,11 @@ export default function LabAnalyzerPage() {
         <div className="flex items-center gap-3 text-primary">
           <FlaskConical size={20} className={loading ? "animate-pulse" : ""} />
           <span className="text-[10px] uppercase tracking-[0.4em] font-bold">Quantitative Diagnostic Module</span>
+          {translatedAnalysis.isTranslating && (
+             <span className="px-3 py-0.5 bg-blue-100 text-blue-700 rounded-full text-[10px] font-bold uppercase tracking-wider border border-blue-200 flex items-center gap-2">
+                <Loader2 className="animate-spin" size={10} /> Localizing Insights...
+             </span>
+          )}
         </div>
         <h1 className="text-5xl font-manrope font-bold tracking-tight text-on-surface">Lab Analyzer</h1>
         <p className="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
@@ -236,28 +306,52 @@ export default function LabAnalyzerPage() {
             </div>
 
             <div className="bg-surface-container-lowest rounded-2xl p-8 col-span-2 border border-outline-variant/10 space-y-3">
-              <p className="text-[10px] uppercase tracking-widest font-bold text-primary">Clinical Summary</p>
-              <p className="text-on-surface text-lg leading-relaxed font-medium">{analysis?.summary}</p>
+              <p className="text-[10px] uppercase tracking-widest font-bold text-primary flex items-center gap-3">
+                Clinical Summary
+                {selectedLanguage !== "en" && (
+                  <span className="text-[8px] font-bold text-blue-600/60 uppercase tracking-[0.2em] flex items-center gap-1">
+                    <Languages size={10} /> Translated
+                  </span>
+                )}
+              </p>
+              <p className="text-on-surface text-lg leading-relaxed font-medium">
+                {translatedAnalysis.isTranslating ? (
+                  <span className="animate-pulse italic opacity-50">Neural synthesis in progress...</span>
+                ) : (
+                  translatedAnalysis.summary
+                )}
+              </p>
             </div>
           </div>
 
           {/* Per-Metric Interpretations */}
           <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 overflow-hidden">
-            <div className="px-8 py-5 bg-surface-container-low">
+            <div className="px-8 py-5 bg-surface-container-low flex justify-between items-center">
               <h3 className="font-bold text-on-surface text-lg flex items-center gap-2">
                 <Droplets size={18} className="text-primary" />
                 Metric-by-Metric Interpretation
               </h3>
+              {selectedLanguage !== "en" && (
+                  <span className="text-[8px] font-bold text-blue-600/60 uppercase tracking-[0.2em] flex items-center gap-1">
+                    <Languages size={10} /> Insights Translated
+                  </span>
+                )}
             </div>
             <div className="divide-y divide-outline-variant/10">
-              {(analysis?.interpretations || []).map((item, i) => (
+              {(translatedAnalysis.interpretations || []).map((item, i) => (
                 <div key={i} className="px-8 py-5 flex items-start justify-between gap-4 hover:bg-surface-container-low/50 transition-colors">
                   <div className="flex-1 space-y-1">
                     <div className="flex items-center gap-3">
                       <p className="font-bold text-on-surface">{item.metric}</p>
                       <StatusBadge status={item.status} />
                     </div>
-                    <p className="text-sm text-on-surface-variant leading-relaxed">{item.insight}</p>
+                    <p className="text-sm text-on-surface-variant leading-relaxed">
+                      {translatedAnalysis.isTranslating ? (
+                         <span className="italic opacity-50">Localizing insight...</span>
+                      ) : (
+                         item.insight
+                      )}
+                    </p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="font-bold font-mono text-on-surface text-lg">{item.value}</p>
@@ -268,19 +362,25 @@ export default function LabAnalyzerPage() {
           </div>
 
           {/* Clinical Recommendations */}
-          {analysis?.recommendations?.length > 0 && (
+          {(translatedAnalysis.recommendations?.length > 0 || translatedAnalysis.isTranslating) && (
             <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10 space-y-5">
               <h3 className="font-bold text-on-surface text-lg flex items-center gap-2">
                 <Heart size={18} className="text-primary" />
                 Clinical Observations
               </h3>
               <ul className="space-y-3">
-                {analysis.recommendations.map((rec, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-on-surface-variant">
-                    <ChevronRight size={16} className="text-primary shrink-0 mt-0.5" />
-                    <span>{rec}</span>
-                  </li>
-                ))}
+                {translatedAnalysis.isTranslating ? (
+                   <li className="text-sm italic opacity-50 flex items-center gap-2">
+                     <Loader2 size={12} className="animate-spin" /> Fetching customized care strategies...
+                   </li>
+                ) : (
+                  translatedAnalysis.recommendations.map((rec, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-on-surface-variant">
+                      <ChevronRight size={16} className="text-primary shrink-0 mt-0.5" />
+                      <span>{rec}</span>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
           )}
@@ -289,7 +389,7 @@ export default function LabAnalyzerPage() {
           <div className="bg-surface-container-low rounded-2xl p-5 flex items-start gap-3 border border-outline-variant/10">
             <ShieldCheck className="text-primary shrink-0 mt-0.5" size={16} />
             <p className="text-xs text-on-surface-variant leading-relaxed">
-              {analysis?.disclaimer}
+              {translatedAnalysis.isTranslating ? "Retrieving regulatory notice..." : translatedAnalysis.disclaimer}
             </p>
           </div>
 
@@ -307,3 +407,4 @@ export default function LabAnalyzerPage() {
     </div>
   );
 }
+
